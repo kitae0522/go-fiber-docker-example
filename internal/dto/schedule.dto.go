@@ -1,18 +1,10 @@
 package dto
 
-import "time"
+import (
+	"time"
 
-type ScheduleItem struct {
-	ID			string 		`json:"id"`
-	Title		string		`json:"title"`
-	content		string		`json:"content"`
-	author		string 		`json:"author"`
-	authorID	string 		`json:"authorID"`
-	startDate	time.Time	`json:"startDate"`
-	endDate		time.Time	`json:"endDate"`
-	createdAt	time.Time	`json:"createdAt"`
-	updatedAt	time.Time	`json:"updatedAt"`
-}
+	"go-fiber-docker-example/internal/model"
+)
 
 type NewScheduleItemReq struct {
 	Title     string    `json:"title" validate:"required"`
@@ -24,8 +16,9 @@ type NewScheduleItemReq struct {
 }
 
 type NewScheduleItemRes struct {
-	IsError 	bool   `json:"isError"`
-	Message  	string `json:"message"`
+	IsError 	bool   	`json:"isError"`
+	StatusCode	int		`json:"statusCode"`	
+	Message  	string 	`json:"message"`
 }
 
 type GetScheduleItemReq struct {
@@ -33,9 +26,18 @@ type GetScheduleItemReq struct {
 }
 
 type GetScheduleItemRes struct {
-	IsError 	bool   			`json:"isError"`
-	Message  	string 			`json:"message"`
-	Schedule	interface{}	`json:"schedule"`
+	IsError 	bool   						`json:"isError"`
+	StatusCode	int							`json:"statusCode"`	
+	Message  	string 						`json:"message"`
+	Schedule	*model.SchedulePostModel	`json:"schedule"`
+}
+
+type ListScheduleItemRes struct {
+	IsError 		bool   						`json:"isError"`
+	StatusCode		int							`json:"statusCode"`	
+	Message  		string 						`json:"message"`
+	ScheduleCount	int							`json:"scheduleCount"`
+	ScheduleList	[]*model.SchedulePostModel	`json:"scheduleList"`
 }
 
 type UpdateScheduleItemReq struct {
@@ -49,9 +51,10 @@ type UpdateScheduleItemReq struct {
 }
 
 type UpdateScheduleItemRes struct {
-	IsError 	bool   			`json:"isError"`
-	Message  	string 			`json:"message"`
-	Schedule	ScheduleItem	`json:"schedule"`
+	IsError 	bool   						`json:"isError"`
+	StatusCode	int							`json:"statusCode"`	
+	Message  	string 						`json:"message"`
+	Schedule	*model.SchedulePostModel	`json:"schedule"`
 }
 
 type DeleteScheduleItemReq struct {
@@ -59,7 +62,7 @@ type DeleteScheduleItemReq struct {
 }
 
 type DeleteScheduleItemRes struct {
-	IsError 	bool   			`json:"isError"`
-	Message  	string 			`json:"message"`
-	Schedule	ScheduleItem	`json:"schedule"`
+	IsError 	bool   						`json:"isError"`
+	StatusCode	int							`json:"statusCode"`	
+	Message  	string 						`json:"message"`
 }

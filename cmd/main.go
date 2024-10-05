@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 
 	"go-fiber-docker-example/internal/handler"
 	"go-fiber-docker-example/internal/service"
@@ -24,6 +25,7 @@ func main() {
 		AllowMethods: "*",
 	}))
 	app.Use(logger.New())
+	app.Use(recover.New())
 
 	dbconn := model.NewClient()
 	if err := dbconn.Prisma.Connect(); err != nil {
@@ -41,7 +43,10 @@ func main() {
 	handler := handler.NewScheduleHandler(service)
 
 	app.Post("/schedule", handler.CreateSchedule)
+	app.Get("/schedule", handler.ListSchedule)
 	app.Get("/schedule/:id", handler.GetScheduleByID)
+	app.Patch("/schedule/:id", handler.UpdateSchedule)
+	app.Delete("/schedule/:id", handler.DeleteSchedule)
 	
 	// routers.EnrollRouter(app)
 	log.Fatal(app.Listen(port))

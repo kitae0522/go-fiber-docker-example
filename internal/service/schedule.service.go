@@ -19,7 +19,22 @@ func (s *ScheduleService) CreateSchedule(req *dto.NewScheduleItemReq) error {
 	return err
 }
 
+func (s *ScheduleService) ListSchedule() ([]*model.SchedulePostModel, error) {
+	scheduleList, err := s.scheduleRepo.ListSchedule()
+	return scheduleList, err
+}
+
 func (s *ScheduleService) GetScheduleByID(req *dto.GetScheduleItemReq) (*model.SchedulePostModel, error) {
 	schedule, err := s.scheduleRepo.GetScheduleByID(req)
 	return schedule, err
+}
+
+func (s *ScheduleService) UpdateSchedule(req *dto.UpdateScheduleItemReq) (*model.SchedulePostModel, error) {
+	schedule, err := s.scheduleRepo.UpdateSchedule(req)
+	return schedule, err
+}
+
+func (s *ScheduleService) DeleteSchedule(req *dto.DeleteScheduleItemReq) (bool, error) {
+	success, err := s.scheduleRepo.DeleteSchedule(req)
+	return success, err
 }

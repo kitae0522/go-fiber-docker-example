@@ -27,6 +27,17 @@ func (r *ScheduleRepository) CreateSchedule(req *dto.NewScheduleItemReq) (*model
 	return schedule, err
 }
 
+func (r *ScheduleRepository) ListSchedule() ([]*model.SchedulePostModel, error) {
+	schedules, err := r.client.SchedulePost.FindMany().Exec(context.Background())
+	var scheduleList []*model.SchedulePostModel
+
+	for i := range schedules {
+		scheduleList = append(scheduleList, &schedules[i])
+	}
+
+	return scheduleList, err
+}
+
 func (r *ScheduleRepository) GetScheduleByID(req *dto.GetScheduleItemReq) (*model.SchedulePostModel, error) {
 	schedule, err := r.client.SchedulePost.FindUnique(
 		model.SchedulePost.ID.Equals(req.ID),
@@ -53,7 +64,7 @@ func (r *ScheduleRepository) DeleteSchedule(req *dto.DeleteScheduleItemReq) (boo
 	).Delete().Exec(context.Background())
 	
 	if err != nil {
-		return true, err
+		return false, err
 	}
-	return false, nil
+	return true, nil
 }
