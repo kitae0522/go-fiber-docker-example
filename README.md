@@ -1,12 +1,12 @@
 # go-fiber-docker-example
 
 ## 프로젝트 구성
-- *cmd/main.go*: Entry Point
-- *internal/db*: Prisma 스키마 및 Prisma Client 관련 코드
-- *internal/repository*: DB 접근 관련 코드. 데이터 읽기&쓰기
-- *internal/service*: 비즈니스 로직
-- *internal/handler*: HTTP 요청 처리
-- *pkg/*: 내부 사용 라이브러리
+- `cmd/main.go`: Entry Point
+- `internal/db`: Prisma 스키마 및 Prisma Client 관련 코드
+- `internal/repository`: DB 접근 관련 코드. 데이터 읽기&쓰기
+- `internal/service`: 비즈니스 로직
+- `internal/handler`: HTTP 요청 처리
+- `pkg/`: 내부 사용 라이브러리
 
 ## 사용 라이브러리
 - [fiber](https://github.com/gofiber/fiber) 
@@ -19,3 +19,7 @@
 3. SSH로 개인 Vultr 인스턴스에 접속 및 Image Pull
 4. Deploy!
 
+## TODO
+- [uber-go/fx](https://github.com/uber-go/fx)를 통해 `cmd/main.go`에서의 의존성 주입
+- Router Layer 추가 (고민 중)
+- GraphQL 적용
