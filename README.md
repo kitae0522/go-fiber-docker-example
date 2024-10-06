@@ -6,6 +6,7 @@
 - `internal/repository`: DB 접근 관련 코드. 데이터 읽기&쓰기
 - `internal/service`: 비즈니스 로직
 - `internal/handler`: HTTP 요청 처리
+- `internal/router`: API Endpoint
 - `pkg/`: 내부 사용 라이브러리
 
 ## 사용 라이브러리
