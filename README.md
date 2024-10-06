@@ -25,3 +25,18 @@
 - Swagger 추가
 - jwt를 이용한 유저 기능 추가
 - GraphQL 적용
+
+## API Endpoints
+- **POST /auth/register**: 회원가입 기능
+- **GET /auth/login**: 로그인 기능 (TODO: 리턴 값 jwt 토큰으로 수정)
+- **PATCH /auth/reset**: 비밀번호 초기화 기능 (TODO: jwt 토큰 헤더 추가)
+- **DELETE /auth/withdraw**: 탈퇴 기능 (TODO: jwt 토큰 헤더 추가)
+- **POST /schedule**: 스케쥴 등록 기능 (TODO: jwt 토큰 헤더 추가)
+- **GET /schedule**: 전체 스케쥴 조회 기능 (TODO: jwt 토큰 헤더 추가)
+- **GET /schedule/:id**: 특정 ID 값의 스케쥴 조회 기능 (TODO: jwt 토큰 헤더 추가)
+- **PATCH /schedule/:id**: 특정 ID 값의 스케쥴 수정 기능 (TODO: jwt 토큰 헤더 추가)
+- **DELETE /schedule/:id**: 특정 ID 값의 스케쥴 삭제 기능 (TODO: jwt 토큰 헤더 추가)
+- **GET /user/:userTag**: 유저 프로필 조회 기능
+- **POST /user**: 유저 프로필 생성 기능 (TODO: jwt 토큰 헤더 추가)
+- **PATCH /user/:userTag**: 유저 프로필 수정 기능 (TODO: jwt 토큰 헤더 추가)
+- **DELETE /user/:userTag**: 유저 프로필 삭제 기능 (TODO: jwt 토큰 헤더 추가)
