@@ -21,5 +21,6 @@
 
 ## TODO
 - [uber-go/fx](https://github.com/uber-go/fx)를 통해 `cmd/main.go`에서의 의존성 주입
-- Router Layer 추가 (고민 중)
+- Swagger 추가
+- jwt를 이용한 유저 기능 추가
 - GraphQL 적용
