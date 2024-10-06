@@ -10,14 +10,52 @@ datasource db {
 }
 
 model SchedulePost {
-  id        	String   	@id @default(cuid())
-  createdAt	DateTime 	@default(now())
-  updatedAt	DateTime	@updatedAt
-  title		String
-  content	String
-  author	String 
-  authorID	String 		@unique
-  startDate	DateTime
-  endDate	DateTime
+  id        	String   	@id @default(uuid())
+  title		    String
+  content	    String
+  author	    String 
+  authorID	  String 		@unique
+  startDate	  DateTime
+  endDate	    DateTime
+  createdAt	  DateTime 	@default(now())
+  updatedAt	  DateTime	@updatedAt
 }
 
+model User {
+  id          String   	   @id @default(uuid())
+  userTag     String       @unique
+  userName    String
+  password    String
+  email       String       @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  profile     UserProfile? 
+  tweets      Tweet[]      @relation("UserTweets")
+  follows     Follow[]     @relation("Followee")
+  followers   Follow[]     @relation("Follower")
+}
+
+model UserProfile {
+  userID          String   	@id @default(uuid())
+  profilePic      String?
+  bio             String?
+  user            User      @relation(fields: [userID], references: [id])
+}
+
+model Tweet {
+  id        String   	   @id @default(uuid())
+  userID    String
+  content   String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  user      User         @relation("UserTweets", fields: [userID], references: [id])
+}
+
+model Follow {
+  followee  String
+  follower  String
+  @@id([followee, follower])
+
+  followeeUser User @relation("Followee", fields: [followee], references: [id])
+  followerUser User @relation("Follower", fields: [follower], references: [id])
+}
