@@ -9,7 +9,7 @@ type ErrorRes struct {
 	Error      interface{} `json:"error"`
 }
 
-func CreateErrorRes(ctx *fiber.Ctx, statusCode int, errMessage string, err error) error {
+func CreateErrorRes(ctx *fiber.Ctx, statusCode int, errMessage string, err interface{}) error {
 	return ctx.Status(statusCode).JSON(ErrorRes{
 		IsError:    true,
 		StatusCode: statusCode,

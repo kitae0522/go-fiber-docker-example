@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"log"
-
 	"github.com/gofiber/fiber/v2"
 
 	"go-fiber-docker-example/internal/dto"
@@ -21,23 +19,12 @@ func NewScheduleHandler(service *service.ScheduleService) *ScheduleHandler {
 func (h *ScheduleHandler) CreateSchedule(ctx *fiber.Ctx) error {
 	newSchedule := new(dto.NewScheduleItemReq)
 	if err := utils.Bind(ctx, newSchedule); err != nil {
-		statusCode := fiber.StatusBadRequest
-		errMessage := "❌ 스케쥴 생성 실패. Body Binding 과정에서 문제 발생"
-		log.Printf("%v: %v", errMessage, err)
-		return utils.CreateErrorRes(ctx, statusCode, errMessage, err)
+		return utils.CreateErrorRes(ctx, fiber.StatusBadRequest, "❌ 스케쥴 생성 실패. Body Binding 과정에서 문제 발생", err)
 	}
 
 	err := h.scheduleService.CreateSchedule(newSchedule)
 	if err != nil {
-		statusCode := fiber.StatusInternalServerError
-		errMessage := "❌ 스케쥴 생성 실패. Repository에서 문제 발생"
-		log.Printf("%v: %v", errMessage, err)
-		return ctx.Status(statusCode).JSON(utils.ErrorRes{
-			IsError:    true,
-			StatusCode: statusCode,
-			Message:    errMessage,
-			Error:      err,
-		})
+		return utils.CreateErrorRes(ctx, fiber.StatusInternalServerError, "❌ 스케쥴 생성 실패. Repository에서 문제 발생", err)
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(dto.NewScheduleItemRes{
@@ -50,14 +37,7 @@ func (h *ScheduleHandler) CreateSchedule(ctx *fiber.Ctx) error {
 func (h *ScheduleHandler) ListSchedule(ctx *fiber.Ctx) error {
 	scheduleList, err := h.scheduleService.ListSchedule()
 	if err != nil {
-		statusCode := fiber.StatusInternalServerError
-		errMessage := "❌ 스케쥴 조회 실패. Repository에서 문제 발생"
-		return ctx.Status(statusCode).JSON(utils.ErrorRes{
-			IsError:    true,
-			StatusCode: statusCode,
-			Message:    errMessage,
-			Error:      err,
-		})
+		return utils.CreateErrorRes(ctx, fiber.StatusInternalServerError, "❌ 스케쥴 조회 실패. Repository에서 문제 발생", err)
 	}
 
 	if len(scheduleList) == 0 {
@@ -86,26 +66,13 @@ func (h *ScheduleHandler) GetScheduleByID(ctx *fiber.Ctx) error {
 	targetSchedule := new(dto.GetScheduleItemReq)
 
 	if len(scheduleID) == 0 {
-		statusCode := fiber.StatusBadRequest
-		errMessage := "❌ 스케쥴 조회 실패. Binding 과정에서 문제 발생"
-		return ctx.Status(statusCode).JSON(utils.ErrorRes{
-			IsError:    true,
-			StatusCode: statusCode,
-			Message:    errMessage,
-		})
+		return utils.CreateErrorRes(ctx, fiber.StatusBadRequest, "❌ 스케쥴 조회 실패. Binding 과정에서 문제 발생", nil)
 	}
 	targetSchedule.ID = scheduleID
 
 	findSchedule, err := h.scheduleService.GetScheduleByID(targetSchedule)
 	if err != nil {
-		statusCode := fiber.StatusInternalServerError
-		errMessage := "❌ 스케쥴 조회 실패. Repository에서 문제 발생"
-		return ctx.Status(statusCode).JSON(utils.ErrorRes{
-			IsError:    true,
-			StatusCode: statusCode,
-			Message:    errMessage,
-			Error:      err,
-		})
+		return utils.CreateErrorRes(ctx, fiber.StatusInternalServerError, "❌ 스케쥴 조회 실패. Repository에서 문제 발생", err)
 	}
 
 	if findSchedule == nil {
@@ -132,25 +99,12 @@ func (h *ScheduleHandler) UpdateSchedule(ctx *fiber.Ctx) error {
 	targetSchedule := new(dto.UpdateScheduleItemReq)
 
 	if len(scheduleID) == 0 {
-		statusCode := fiber.StatusBadRequest
-		errMessage := "❌ 스케쥴 조회 실패. Binding 과정에서 문제 발생"
-		return ctx.Status(statusCode).JSON(utils.ErrorRes{
-			IsError:    true,
-			StatusCode: statusCode,
-			Message:    errMessage,
-		})
+		return utils.CreateErrorRes(ctx, fiber.StatusBadRequest, "❌ 스케쥴 조회 실패. Binding 과정에서 문제 발생", nil)
 	}
 	targetSchedule.ID = scheduleID
 
 	if err := utils.Bind(ctx, targetSchedule); err != nil {
-		statusCode := fiber.StatusBadRequest
-		errMessage := "❌ 스케쥴 생성 실패. Body Binding 과정에서 문제 발생"
-		return ctx.Status(statusCode).JSON(utils.ErrorRes{
-			IsError:    true,
-			StatusCode: statusCode,
-			Message:    errMessage,
-			Error:      err,
-		})
+		return utils.CreateErrorRes(ctx, fiber.StatusBadRequest, "❌ 스케쥴 생성 실패. Body Binding 과정에서 문제 발생", err)
 	}
 
 	updateSchedule, err := h.scheduleService.UpdateSchedule(targetSchedule)
@@ -179,13 +133,7 @@ func (h *ScheduleHandler) DeleteSchedule(ctx *fiber.Ctx) error {
 	targetSchedule := new(dto.DeleteScheduleItemReq)
 
 	if len(scheduleID) == 0 {
-		statusCode := fiber.StatusBadRequest
-		errMessage := "❌ 스케쥴 조회 실패. Binding 과정에서 문제 발생"
-		return ctx.Status(statusCode).JSON(utils.ErrorRes{
-			IsError:    true,
-			StatusCode: statusCode,
-			Message:    errMessage,
-		})
+		return utils.CreateErrorRes(ctx, fiber.StatusBadRequest, "❌ 스케쥴 조회 실패. Binding 과정에서 문제 발생", nil)
 	}
 	targetSchedule.ID = scheduleID
 
