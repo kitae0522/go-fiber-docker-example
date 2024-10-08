@@ -8,10 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 
-	"go-fiber-docker-example/internal/handler"
-	"go-fiber-docker-example/internal/service"
-	"go-fiber-docker-example/internal/repository"
 	"go-fiber-docker-example/internal/model"
+	"go-fiber-docker-example/internal/router"
 )
 
 const port = ":8080"
@@ -38,16 +36,6 @@ func main() {
 		}
 	}()
 
-	repository := repository.NewScheduleRepository(dbconn)
-	service := service.NewScheduleService(repository)
-	handler := handler.NewScheduleHandler(service)
-
-	app.Post("/schedule", handler.CreateSchedule)
-	app.Get("/schedule", handler.ListSchedule)
-	app.Get("/schedule/:id", handler.GetScheduleByID)
-	app.Patch("/schedule/:id", handler.UpdateSchedule)
-	app.Delete("/schedule/:id", handler.DeleteSchedule)
-	
-	// routers.EnrollRouter(app)
+	router.EnrollRouter(app, dbconn)
 	log.Fatal(app.Listen(port))
 }

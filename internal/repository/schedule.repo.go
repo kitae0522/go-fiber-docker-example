@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"go-fiber-docker-example/internal/model"
 	"go-fiber-docker-example/internal/dto"
+	"go-fiber-docker-example/internal/model"
 )
 
 type ScheduleRepository struct {
@@ -40,14 +40,14 @@ func (r *ScheduleRepository) ListSchedule() ([]*model.SchedulePostModel, error) 
 
 func (r *ScheduleRepository) GetScheduleByID(req *dto.GetScheduleItemReq) (*model.SchedulePostModel, error) {
 	schedule, err := r.client.SchedulePost.FindUnique(
-		model.SchedulePost.ID.Equals(req.ID),
+		model.SchedulePost.Cuuid.Equals(req.ID),
 	).Exec(context.Background())
 	return schedule, err
 }
 
 func (r *ScheduleRepository) UpdateSchedule(req *dto.UpdateScheduleItemReq) (*model.SchedulePostModel, error) {
 	schedule, err := r.client.SchedulePost.FindUnique(
-		model.SchedulePost.ID.Equals(req.ID),
+		model.SchedulePost.Cuuid.Equals(req.ID),
 	).Update(
 		model.SchedulePost.Title.Set(req.Title),
 		model.SchedulePost.Content.Set(req.Content),
@@ -60,9 +60,9 @@ func (r *ScheduleRepository) UpdateSchedule(req *dto.UpdateScheduleItemReq) (*mo
 
 func (r *ScheduleRepository) DeleteSchedule(req *dto.DeleteScheduleItemReq) (bool, error) {
 	_, err := r.client.SchedulePost.FindUnique(
-		model.SchedulePost.ID.Equals(req.ID),
+		model.SchedulePost.Cuuid.Equals(req.ID),
 	).Delete().Exec(context.Background())
-	
+
 	if err != nil {
 		return false, err
 	}

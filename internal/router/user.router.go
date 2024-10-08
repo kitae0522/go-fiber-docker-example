@@ -18,7 +18,8 @@ func initUserDI(dbconn *model.PrismaClient) *handler.UserHandler {
 
 func initUserRouter(router fiber.Router, handler *handler.UserHandler) {
 	userRouter := router.Group("/user")
+	userRouter.Post("/", handler.CreateProfile)
 	userRouter.Get("/:id", handler.GetProfileByTag)
 	userRouter.Patch("/:id", handler.UpdateProfile)
-	userRouter.Delete("/:id", handler.DeleteProfile)
+	// userRouter.Delete("/:id", handler.DeleteProfile)
 }

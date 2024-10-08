@@ -10,6 +10,7 @@ func EnrollRouter(app *fiber.App, dbconn *model.PrismaClient) {
 	apiRouter := app.Group("/")
 	initScheduleRouter(apiRouter, initScheduleDI(dbconn))
 	initAuthRouter(apiRouter, initAuthDI(dbconn))
+	initUserRouter(apiRouter, initUserDI(dbconn))
 
 	apiRouter.Get("/ping", func(ctx *fiber.Ctx) error {
 		return ctx.JSON(fiber.Map{
